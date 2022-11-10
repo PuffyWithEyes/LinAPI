@@ -107,6 +107,8 @@ fabric.properties
 
 
 ### My config
+test
+
 .idea/.gitignore
 .idea/discord.xml
 .idea/linapi.iml
