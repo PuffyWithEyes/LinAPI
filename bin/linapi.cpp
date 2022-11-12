@@ -1,90 +1,94 @@
-#include <stdexcept>
 #include <memory>
 #include "linapi.hpp"
+#include <fstream>
 #include <iostream>
-#include <sstream>
+#include <unistd.h>
 
 
-std::string* linapi::API::get_answer_terminal(const unsigned &messageSize, const char *command) {
-    auto psBuffer = new char[messageSize];
+void linapi::API::set_command_size(const char *command) {
+    auto psBuffer = new char[2];
     FILE *pPipe;
 
     if ((pPipe = popen(command, "r")) == nullptr)
         throw std::runtime_error("Command not found");
 
-    while (fgets(psBuffer, (int)messageSize, pPipe));  // TODO: Сделать проверку на размер, если >= 2 - ошибка
+    std::unique_ptr<unsigned> commandIter(new unsigned(0));
 
-    auto answerStr =  new std::string(psBuffer);
+    while (fgets(psBuffer, (int)commandSize, pPipe))
+        (*commandIter)++;
 
     delete[] psBuffer;
+
+    commandSize *= *commandIter;
+
+    if (feof(pPipe))
+        pclose(pPipe);
+    else
+        throw std::runtime_error("The identifier set at the end of the file is missing");
+}
+
+
+std::string linapi::API::get_answer_terminal_pop(const char *command) {
+    set_command_size(command);
+
+    auto psBuffer = new char[commandSize];
+    FILE *pPipe;
+
+    if ((pPipe = popen(command, "r")) == nullptr)
+        throw std::runtime_error("Command not found");
+
+    while(fgets(psBuffer, (int)commandSize, pPipe));
+
+    std::string answer = psBuffer;
 
     if (feof(pPipe))
         pclose(pPipe);
     else
         throw std::runtime_error("The identifier set at the end of the file is missing");
 
-    return answerStr;
+    return answer;
 }
 
 
-unsigned* linapi::Console::_get_size_console_x() {
-    auto size = new unsigned(std::stoul(*get_answer_terminal(6, "printf \"%d\" $COLUMNS")));  // FIXME: Получаем 0
-    return size;
+std::string linapi::API::get_answer_terminal_hard(std::string &command) {
+    std::unique_ptr<std::string> commandWrite(new std::string(command + " > LinAPI.tmp"));
+    const char *sysCommand = commandWrite->c_str();
+
+    system("touch LinAPI.tmp");
+
+    system(sysCommand);
+
+    std::string answer;
+    std::unique_ptr<std::ifstream> file(new std::ifstream("LinAPI.tmp"));
+
+    if (file->is_open())
+        getline(*file, answer);
+    file->close();
+
+    system("rm -rf LinAPI.tmp");
+
+    return answer;
 }
 
 
 unsigned linapi::Console::get_size_console_x() {
-    auto size = new unsigned(std::stoul(*get_answer_terminal(6, "printf \"%d\" $COLUMNS")));  // FIXME: Получаем 0
-    return *size;
-}
+    std::unique_ptr<std::string> command(new std::string("echo \"$COLUMNS\""));
 
-
-unsigned* linapi::Console::_get_size_console_y() {
-    auto size = new unsigned(std::stoul(*get_answer_terminal(6, "printf \"%d\" $LINES")));
-    return size;
+    return std::stoul(linapi::API::get_answer_terminal_hard(*command));  // FIXME: Без дебаггера получаем 0-ое значение
 }
 
 
 unsigned linapi::Console::get_size_console_y() {
-    auto size = new unsigned(std::stoul(*get_answer_terminal(6, "printf \"%d\" $LINES")));
-    return *size;
+    std::unique_ptr<std::string> command(new std::string("echo \"$LINES\""));
+
+    return std::stoul(linapi::API::get_answer_terminal_hard(*command));  // FIXME: Без дебаггера получаем 0-ое значение
 }
 
 
-std::string* linapi::Files::_local_search() {
-    auto directoriesText = new std::string(*get_answer_terminal(1024, "ls"));  // FIXME: Большую строку возвращает криво
+std::string linapi::Files::local_search() {
+    std::unique_ptr<std::string> command(new std::string("ls"));
 
-    for (char i: *directoriesText)
-        if (i == ' ')
-            lsSize++;
+    std::string result = linapi::API::get_answer_terminal_hard(*command);
 
-    auto directoriesArray = new std::string[lsSize + 1];
-
-    std::unique_ptr<std::istringstream> ss(new std::istringstream(*directoriesText));
-    std::unique_ptr<std::string> tempString(new std::string);
-
-    delete directoriesText;
-
-    for (unsigned i = 0; i < lsSize + 1; i++) {
-        *ss >> *tempString;
-        directoriesArray[i] = *tempString;
-    }
-
-    return directoriesArray;
-}
-
-
-unsigned* linapi::Files::_get_ls_size_for_array() {
-    if (lsSize == 0)
-        _local_search();
-
-    return &lsSize + 1;
-}
-
-
-unsigned linapi::Files::get_ls_size_for_array() {
-    if (lsSize == 0)
-        _local_search();
-
-    return lsSize + 1;
+    return result;  // FIXME: Возвращает неверные директории
 }

@@ -16,12 +16,18 @@ namespace linapi {
 
 
 namespace linapi {
-    struct API {
+    class API {
+    private:
+        unsigned commandSize = 2;
+        void set_command_size(const char *command);  // INFO: Sets the size of the received command
+    public:
         API() = default;
 
         ~API() = default;
 
-        static std::string* get_answer_terminal(const unsigned &messageSize, const char *command);  // INFO: Returns the result of the command
+        std::string get_answer_terminal_pop(const char *command);  // INFO: Returns the result of the command
+
+        static std::string get_answer_terminal_hard(std::string &command);
     };
 
 
@@ -30,32 +36,21 @@ namespace linapi {
 
         ~Console() = default;
 
-        static unsigned* _get_size_console_x();  // INFO: Get the size of the terminal along the x-axis
-
         static unsigned get_size_console_x();  // INFO: Get the size of the terminal along the x-axis
-
-        static unsigned* _get_size_console_y();  // INFO: Get the size of the terminal along the y-axis
 
         static unsigned get_size_console_y();  // INFO: Get the size of the terminal along the y-axis
     };
 
 
     class Files: public API {
-    private:
-        unsigned lsSize = 0;
-
     public:
         Files() = default;
 
         ~Files() = default;
 
-        std::string* _local_search();  // INFO: Returns an array with folders and files
+        static std::string local_search();  // INFO: Returns an array with folders and files
 
 //        void change_directory();  // INFO: Changes the directory in which the file is being executed
-
-        unsigned* _get_ls_size_for_array();
-
-        unsigned get_ls_size_for_array();
     };
 }
 
