@@ -1,5 +1,7 @@
 // INFO: Unit-Tests
-#include "unit_test_memory.hpp"
+#include <iostream>
+#include <memory>
+#include "../bin/linapi.hpp"
 #define GREEN "\033[32m"
 #define RED   "\033[31m"
 #define RESET "\033[0m"
@@ -29,18 +31,18 @@ int main() {
 
     auto ls = files->local_search();
 
-    if (ls == "CMakeCache.txt")  // INFO: Test 3
+    if (ls == "CMakeCache.txt\n"
+              "CMakeFiles\n"
+              "Testing\n"
+              "build.ninja\n"
+              "cmake_install.cmake\n"
+              "coverage\n"
+              "linapi\n")  // INFO: Test 3
         std::cout << "Test 3 | " << GREEN << "Passed" << RESET << '[' << ls << ']' << std::endl;
     else
         std::cout << "Test 3 | " << RED << "Failed" << RESET << '[' << ls << ']' << std::endl;
 
     /* ////////////////////////////////////////////////////////////////// */
-
-    bool answer;
-    std::cout << "Test memory?: "; std::cin >> answer;
-
-    if (answer)
-        test_memory();
 
     return 0;
 }
