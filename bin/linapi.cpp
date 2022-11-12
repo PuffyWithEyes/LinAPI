@@ -2,7 +2,6 @@
 #include "linapi.hpp"
 #include <fstream>
 #include <iostream>
-#include <unistd.h>
 
 
 void linapi::API::set_command_size(const char *command) {
