@@ -1,5 +1,5 @@
-#ifndef _LINAPI_HPP_
-#define _LINAPI_HPP_
+#ifndef LINAPI_LINAPI_HPP
+#define LINAPI_LINAPI_HPP
 
 #if ! __linux__  // DON'T REMOVE "!", YOU CAN CORRUPT YOUR FILES
 
@@ -21,7 +21,7 @@ namespace linapi {
 
         ~API() = default;
 
-        static std::string get_answer_terminal_pop(const char *command);  // INFO: Returns the result of the command
+        static std::string get_answer_terminal(const char *command);  // INFO: Returns the result of the command
     };
 
 
@@ -36,17 +36,18 @@ namespace linapi {
     };
 
 
-    class Files: public API {
-    public:
+    struct Files: public API {
         Files() = default;
 
         ~Files() = default;
 
-        static std::string local_search();  // INFO: Returns an array with folders and files
+        static std::string local_search();
 
-//        void change_directory();  // INFO: Changes the directory in which the file is being executed
+        static std::string local_search(const char *optionOrPath);  // INFO: Returns an array with folders and files
+
+        static std::string local_search(const char *option, const char *path);
     };
 }
 
 #endif  // ! __linux__
-#endif  // _LINAPI_HPP_
+#endif  // LINAPI_LINAPI_HPP
