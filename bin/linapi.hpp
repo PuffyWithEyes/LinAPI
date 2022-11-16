@@ -16,7 +16,14 @@ namespace linapi {
 
 
 namespace linapi {
-    struct API {
+    class API {
+    protected:
+        static void split_last_char(std::string &str);
+
+        static std::string make_command(const char *command, const char *optionOrSth);
+
+        static std::string make_command(const char *command, const char *option, const char *sth);
+    public:
         API() = default;
 
         ~API() = default;
@@ -46,6 +53,18 @@ namespace linapi {
         static std::string local_search(const char *optionOrPath);  // INFO: Returns an array with folders and files
 
         static std::string local_search(const char *option, const char *path);
+
+        static std::string path_to_directory();
+
+        static std::string path_to_directory(const char *option);
+
+        static void touch(const char *name);
+
+        static void touch(const char *option, const char *name);
+
+        static void remove(const char *file);
+
+        static void remove(const char *option, const char *target);
     };
 }
 
