@@ -11,21 +11,21 @@
 int main() {
     /* ////////////////////////////////////////////////////////////////// */
 
-    auto test = linapi::Console::get_size_console_x();
+    auto testSize = linapi::Console::get_size_console_x();
 
-    if (test > 0)  // INFO: Test 1
-        std::cout << "Test 1 | " << GREEN << "Passed" << RESET << '[' << test << ']' << std::endl;
+    if (testSize > 0)  // INFO: Test 1
+        std::cout << "Test 1 | " << GREEN << "Passed" << RESET << '[' << testSize << ']' << std::endl;
     else
-        std::cout << "Test 1 | " << RED << "Failed" << RESET << '[' << test<< ']' << std::endl;
+        std::cout << "Test 1 | " << RED << "Failed" << RESET << '[' << testSize << ']' << std::endl;
 
     /* ////////////////////////////////////////////////////////////////// */
 
-    test = linapi::Console::get_size_console_y();
+    testSize = linapi::Console::get_size_console_y();
 
-    if (test > 0)  // INFO: Test 2
-        std::cout << "Test 2 | " << GREEN << "Passed" << RESET << '[' << test << ']' << std::endl;
+    if (testSize > 0)  // INFO: Test 2
+        std::cout << "Test 2 | " << GREEN << "Passed" << RESET << '[' << testSize << ']' << std::endl;
     else
-        std::cout << "Test 2 | " << RED << "Failed" << RESET << '[' << test << ']' << std::endl;
+        std::cout << "Test 2 | " << RED << "Failed" << RESET << '[' << testSize << ']' << std::endl;
 
     /* ////////////////////////////////////////////////////////////////// */
 
@@ -36,12 +36,56 @@ int main() {
     auto lsPath = files->local_search(TEST_PATH);
     auto lsOptionPath = files->local_search("-r", TEST_PATH);
 
-    std::cout << lsPath << std::endl;
-
     if (ls == PATH_LS && lsOption == RPATH_LS && lsPath == LS_TEST_PATH && lsOptionPath == RLS_TEST_PATH)  // INFO: Test 3
-        std::cout << "Test 3 | " << GREEN << "Passed" << RESET << '[' << ls << '|' << lsOption << '|' << lsPath << '|' << lsOptionPath << ']' << std::endl;
+        std::cout << "Test 3 | " << GREEN << "Passed" << RESET << std::endl;
     else
-        std::cout << "Test 3 | " << RED << "Failed" << RESET << '[' << ls << '|' << lsOption << '|' << lsPath << '|' << lsOptionPath << ']' << std::endl;
+        std::cout << "Test 3 | " << RED << "Failed" << RESET << '[' << ls << '|' << lsOption << '|' << lsPath << '|' <<
+        lsOptionPath << ']' << std::endl;
+
+    /* ////////////////////////////////////////////////////////////////// */
+
+    auto pwd = files->path_to_directory();
+    auto pwdOption = files->path_to_directory("-P");
+
+    if (pwd == THIS_PATH && pwdOption == THIS_PATH)  // INFO: Test 4
+        std::cout << "Test 4 | " << GREEN << "Passed" << RESET << std::endl;
+    else
+        std::cout << "Test 4 | " << RED << "Failed" << RESET << '[' << pwd << '|' << pwdOption << ']' << std::endl;
+
+    /* ////////////////////////////////////////////////////////////////// */
+
+    files->touch("test");
+
+    ls = files->local_search();
+
+    if (ls == LS_TOUCH)  // INFO: Test 5
+        std::cout << "Test 5 | " << GREEN << "Passed" << RESET << std::endl;
+    else
+        std::cout << "Test 5 | " << RED << "Failed" << RESET << '[' << ls << '|' << pwdOption << ']' << std::endl;
+
+    /* ////////////////////////////////////////////////////////////////// */
+
+    files->remove("test");
+
+    ls = files->local_search();
+
+    if (ls == PATH_LS)  // INFO: Test 6
+        std::cout << "Test 6 | " << GREEN << "Passed" << RESET << std::endl;
+    else
+        std::cout << "Test 6 | " << RED << "Failed" << RESET << '[' << ls << '|' << pwdOption << ']' << std::endl;
+
+    /* ////////////////////////////////////////////////////////////////// */
+
+    files->touch("-a", "test");
+
+    ls = files->local_search();
+
+    if (ls == LS_TOUCH)  // INFO: Test 7
+        std::cout << "Test 7 | " << GREEN << "Passed" << RESET << std::endl;
+    else
+        std::cout << "Test 7 | " << RED << "Failed" << RESET << '[' << ls << '|' << pwdOption << ']' << std::endl;
+
+    files->remove("test");
 
     /* ////////////////////////////////////////////////////////////////// */
 
