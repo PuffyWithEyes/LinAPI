@@ -2,6 +2,7 @@
 #include <iostream>
 #include <memory>
 #include "../bin/linapi.hpp"
+#include "define.hpp"
 #define GREEN "\033[32m"
 #define RED   "\033[31m"
 #define RESET "\033[0m"
@@ -9,6 +10,7 @@
 
 int main() {
     /* ////////////////////////////////////////////////////////////////// */
+
     auto test = linapi::Console::get_size_console_x();
 
     if (test > 0)  // INFO: Test 1
@@ -30,17 +32,16 @@ int main() {
     std::unique_ptr<linapi::Files> files(new linapi::Files);
 
     auto ls = files->local_search();
+    auto lsOption = files->local_search("-r");
+    auto lsPath = files->local_search(TEST_PATH);
+    auto lsOptionPath = files->local_search("-r", TEST_PATH);
 
-    if (ls == "CMakeCache.txt\n"
-              "CMakeFiles\n"
-              "Testing\n"
-              "build.ninja\n"
-              "cmake_install.cmake\n"
-              "coverage\n"
-              "linapi\n")  // INFO: Test 3
-        std::cout << "Test 3 | " << GREEN << "Passed" << RESET << '[' << ls << ']' << std::endl;
+    std::cout << lsPath << std::endl;
+
+    if (ls == PATH_LS && lsOption == RPATH_LS && lsPath == LS_TEST_PATH && lsOptionPath == RLS_TEST_PATH)  // INFO: Test 3
+        std::cout << "Test 3 | " << GREEN << "Passed" << RESET << '[' << ls << '|' << lsOption << '|' << lsPath << '|' << lsOptionPath << ']' << std::endl;
     else
-        std::cout << "Test 3 | " << RED << "Failed" << RESET << '[' << ls << ']' << std::endl;
+        std::cout << "Test 3 | " << RED << "Failed" << RESET << '[' << ls << '|' << lsOption << '|' << lsPath << '|' << lsOptionPath << ']' << std::endl;
 
     /* ////////////////////////////////////////////////////////////////// */
 
