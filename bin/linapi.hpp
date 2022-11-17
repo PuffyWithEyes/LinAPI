@@ -23,6 +23,8 @@ namespace linapi {
         static std::string make_command(const char *command, const char *optionOrSth);
 
         static std::string make_command(const char *command, const char *option, const char *sth);
+
+        static std::string make_command(const char *command, const char *option, const char *sth2, const char *sth3);
     public:
         API() = default;
 
@@ -43,7 +45,10 @@ namespace linapi {
     };
 
 
-    struct Files: public API {
+    class Files: public API {
+    private:
+        static std::string make_long_command(char **array, const unsigned &size);
+    public:
         Files() = default;
 
         ~Files() = default;
@@ -69,6 +74,16 @@ namespace linapi {
         static void mkdir(const char *directory);
 
         static void mkdir(const char *option, const char *directory);
+
+        static void copy(const char *fileOrDirectory1, const char *fileOrDirectory2);
+
+        static void copy(const char *option, const char *fileOrDirectory1, const char *fileOrDirectory2);
+
+        static void copy(char **arrayWithFilesNames, const char *directory, const unsigned &sizeOfArray);
+
+        static void copy(const char *option, char **arrayWithFilesNames, const char *directory, const unsigned &sizeOfArray);
+
+        static std::string cat(const char *option, const char *file);
     };
 }
 
