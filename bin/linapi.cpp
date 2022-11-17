@@ -138,4 +138,19 @@ void linapi::Files::copy(char **arrayWithFilesNames, const char *directory, cons
 void linapi::Files::copy(const char *option, char **arrayWithFilesNames, const char *directory, const unsigned &sizeOfArray) { system(API::make_command("cp", option, make_long_command(arrayWithFilesNames, sizeOfArray).c_str(), directory).c_str()); }
 
 
-std::string linapi::Files::cat(const char *option, const char *file) { system(API::make_command("cat", option, file).c_str()); }
+std::string linapi::Files::cat(const char *option, const char *file) { return API::get_answer_terminal(API::make_command("cat", option, file).c_str()); }
+
+
+std::string linapi::Files::more(const char *file) { return API::get_answer_terminal(API::make_command("more", "-e", file).c_str()); }
+
+
+std::string linapi::Files::head(const char *file) { return API::get_answer_terminal(API::make_command("head", file).c_str()); }
+
+
+std::string linapi::Files::head(const char *option, const char *file) { return API::get_answer_terminal(API::make_command("head", option, file).c_str()); }
+
+
+std::string linapi::Files::tail(const char *file) { return API::get_answer_terminal(API::make_command("tail", file).c_str()); }
+
+
+std::string linapi::Files::tail(const char *option, const char *file) { return API::get_answer_terminal(API::make_command("tail", option, file).c_str()); }

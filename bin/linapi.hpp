@@ -84,6 +84,16 @@ namespace linapi {
         static void copy(const char *option, char **arrayWithFilesNames, const char *directory, const unsigned &sizeOfArray);
 
         static std::string cat(const char *option, const char *file);
+
+        static std::string more(const char *file);  // Return with option -e
+
+        static std::string head(const char *file);
+
+        static std::string head(const char *option, const char *file);
+
+        static std::string tail(const char *file);
+
+        static std::string tail(const char *option, const char *file);
     };
 }
 
