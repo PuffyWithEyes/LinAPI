@@ -3,6 +3,7 @@
 #include <memory>
 #include "../bin/linapi.hpp"
 #include "define.hpp"
+#include <fstream>
 #define GREEN "\033[32m"
 #define RED   "\033[31m"
 #define RESET "\033[0m"
@@ -119,6 +120,19 @@ int main() {
         std::cout << "Test 10 | " << GREEN << "Passed" << RESET << std::endl;
     else
         std::cout << "Test 10 | " << RED << "Failed" << RESET << '[' << ls << ']' << std::endl;
+
+    files->remove("-rf", "test");
+
+    /* ////////////////////////////////////////////////////////////////// */  // COPY
+
+    files->copy("-v", "test");
+
+    ls = files->local_search();
+
+    if (ls == LS_TOUCH)  // INFO: Test 11
+        std::cout << "Test 11 | " << GREEN << "Passed" << RESET << std::endl;
+    else
+        std::cout << "Test 11 | " << RED << "Failed" << RESET << '[' << ls << ']' << std::endl;
 
     files->remove("-rf", "test");
 
