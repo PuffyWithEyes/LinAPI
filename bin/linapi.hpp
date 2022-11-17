@@ -65,6 +65,10 @@ namespace linapi {
         static void remove(const char *file);
 
         static void remove(const char *option, const char *target);
+
+        static void mkdir(const char *directory);
+
+        static void mkdir(const char *option, const char *directory);
     };
 }
 

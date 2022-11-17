@@ -95,4 +95,10 @@ void linapi::Files::touch(const char *option, const char *name) { system(API::ma
 void linapi::Files::remove(const char *file) { system(API::make_command("rm", file).c_str()); }
 
 
-void linapi::Files::remove(const char *option, const char *target) { system(make_command("rm", option, target).c_str()); }
+void linapi::Files::remove(const char *option, const char *target) { system(API::make_command("rm", option, target).c_str()); }
+
+
+void linapi::Files::mkdir(const char *directory) { system(API::make_command("mkdir", directory).c_str()); }
+
+
+void linapi::Files::mkdir(const char *option, const char *directory) { system(API::make_command("mkdir", option, directory). c_str()); }
