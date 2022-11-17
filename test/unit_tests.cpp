@@ -72,7 +72,7 @@ int main() {
     if (ls == PATH_LS)  // INFO: Test 6
         std::cout << "Test 6 | " << GREEN << "Passed" << RESET << std::endl;
     else
-        std::cout << "Test 6 | " << RED << "Failed" << RESET << '[' << ls << '|' << pwdOption << ']' << std::endl;
+        std::cout << "Test 6 | " << RED << "Failed" << RESET << '[' << ls << ']' << std::endl;
 
     /* ////////////////////////////////////////////////////////////////// */
 
@@ -83,9 +83,44 @@ int main() {
     if (ls == LS_TOUCH)  // INFO: Test 7
         std::cout << "Test 7 | " << GREEN << "Passed" << RESET << std::endl;
     else
-        std::cout << "Test 7 | " << RED << "Failed" << RESET << '[' << ls << '|' << pwdOption << ']' << std::endl;
+        std::cout << "Test 7 | " << RED << "Failed" << RESET << '[' << ls << ']' << std::endl;
 
     files->remove("test");
+
+    /* ////////////////////////////////////////////////////////////////// */
+
+    files->mkdir("test");
+
+    ls = files->local_search();
+
+    if (ls == LS_TOUCH)  // INFO: Test 8
+        std::cout << "Test 8 | " << GREEN << "Passed" << RESET << std::endl;
+    else
+        std::cout << "Test 8 | " << RED << "Failed" << RESET << '[' << ls << ']' << std::endl;
+
+    /* ////////////////////////////////////////////////////////////////// */
+
+    files->remove("-rf", "test");
+
+    ls = files->local_search();
+
+    if (ls == PATH_LS)  // INFO: Test 9
+        std::cout << "Test 9 | " << GREEN << "Passed" << RESET << std::endl;
+    else
+        std::cout << "Test 9 | " << RED << "Failed" << RESET << '[' << ls << ']' << std::endl;
+
+    /* ////////////////////////////////////////////////////////////////// */
+
+    files->mkdir("-v", "test");
+
+    ls = files->local_search();
+
+    if (ls == LS_TOUCH)  // INFO: Test 10
+        std::cout << "Test 10 | " << GREEN << "Passed" << RESET << std::endl;
+    else
+        std::cout << "Test 10 | " << RED << "Failed" << RESET << '[' << ls << ']' << std::endl;
+
+    files->remove("-rf", "test");
 
     /* ////////////////////////////////////////////////////////////////// */
 
