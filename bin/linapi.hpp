@@ -17,9 +17,9 @@ namespace linapi {
 
 namespace linapi {
     class API {
-    protected:
+    private:
         static void split_last_char(std::string &str);
-
+    protected:
         static std::string make_command(const char *command, const char *optionOrSth);
 
         static std::string make_command(const char *command, const char *option, const char *sth);
@@ -92,11 +92,31 @@ namespace linapi {
 
         static std::string tail(const char *option, const char *file);
 
-        // Add bash and sh
+        // TODO: Add bash and sh
     };
 
 
-    struct Process;
+    struct Process: public API {
+        static std::string ps();
+
+        static std::string ps(const char *option);
+
+        static std::string top(const char *option);
+
+        static void kill(const char *applicationID_pid);
+
+        static void kill(const char *option, const char *applicationID_pid);
+
+        static void kill_all(const char *applicationName);
+
+        static void kill_all(const char *option, const char *applicationName);
+    };
+
+    // TODO: System info
+
+    // TODO: Compression
+
+    // TODO: Network
 }
 
 #endif  // ! __linux__

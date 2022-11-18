@@ -122,3 +122,24 @@ std::string linapi::Files::tail(const char *file) { return API::make_simply_comm
 
 
 std::string linapi::Files::tail(const char *option, const char *file) { return API::make_simply_command(API::make_command("tail", option, file).c_str()); }
+
+
+std::string linapi::Process::ps() { return API::make_simply_command("ps"); }
+
+
+std::string linapi::Process::ps(const char *option) { return API::make_simply_command(API::make_command("ps", option).c_str()); }
+
+
+std::string linapi::Process::top(const char *option) { return API::make_simply_command(API::make_command("top", option).c_str()); }
+
+
+void linapi::Process::kill(const char *applicationID_pid) { system(API::make_command("kill", applicationID_pid).c_str()); }
+
+
+void linapi::Process::kill(const char *option, const char *applicationID_pid) { system(API::make_command("kill", option, applicationID_pid).c_str()); }
+
+
+void linapi::Process::kill_all(const char *applicationName) { system(API::make_command("killall", applicationName).c_str()); }
+
+
+void linapi::Process::kill_all(const char *option, const char *applicationName) { system(API::make_command("kill", option, applicationName).c_str()); }
