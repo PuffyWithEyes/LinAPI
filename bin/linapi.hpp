@@ -25,6 +25,8 @@ namespace linapi {
         static std::string make_command(const char *command, const char *option, const char *sth);
 
         static std::string make_command(const char *command, const char *option, const char *sth2, const char *sth3);
+
+        static std::string make_simply_command(const char *command);
     public:
         API() = default;
 
@@ -34,57 +36,67 @@ namespace linapi {
     };
 
 
-    struct Console: public API {
-        Console() = default;
+    struct Terminal: public API {
+        Terminal() = default;
 
-        ~Console() = default;
+        ~Terminal() = default;
 
         static unsigned get_size_console_x();  // INFO: Get the size of the terminal along the x-axis
 
         static unsigned get_size_console_y();  // INFO: Get the size of the terminal along the y-axis
+
+        static void pause();
     };
 
 
-    class Files: public API {
-    private:
-        static std::string make_long_command(char **array, const unsigned &size);
-    public:
+    struct Files: public API {
         Files() = default;
 
         ~Files() = default;
 
         static std::string local_search();
 
-        static std::string local_search(const char *optionOrPath);  // INFO: Returns an array with folders and files
+        static std::string local_search(const char *optionOrPathOrPaths);  // INFO: Returns an array with folders and files
 
-        static std::string local_search(const char *option, const char *path);
+        static std::string local_search(const char *option, const char *pathOrPaths);
 
         static std::string path_to_directory();
 
         static std::string path_to_directory(const char *option);
 
-        static void touch(const char *name);
+        static void touch(const char *fileOrFiles);
 
-        static void touch(const char *option, const char *name);
+        static void touch(const char *option, const char *fileOrFiles);
 
-        static void remove(const char *file);
+        static void remove(const char *fileOrFiles);
 
-        static void remove(const char *option, const char *target);
+        static void remove(const char *option, const char *targetOrTargets);
 
-        static void mkdir(const char *directory);
+        static void make_directory(const char *directoryOrDirectories);
 
-        static void mkdir(const char *option, const char *directory);
+        static void make_directory(const char *option, const char *directoryOrDirectories);
 
-        static void copy(const char *fileOrDirectory1, const char *fileOrDirectory2);
+        static void copy(const char *filesOrDirectories, const char *fileOrDirectory);
 
-        static void copy(const char *option, const char *fileOrDirectory1, const char *fileOrDirectory2);
+        static void copy(const char *option, const char *filesOrDirectories, const char *fileOrDirectory);
 
-        static void copy(char **arrayWithFilesNames, const char *directory, const unsigned &sizeOfArray);
+        static std::string cat(const char *option, const char *fileOrFiles);
 
-        static void copy(const char *option, char **arrayWithFilesNames, const char *directory, const unsigned &sizeOfArray);
+        static std::string more(const char *file);  // Return with option -e
 
-        static std::string cat(const char *option, const char *file);
+        static std::string head(const char *fileOrFiles);
+
+        static std::string head(const char *option, const char *fileOrFiles);
+
+        static std::string tail(const char *file);
+
+        static std::string tail(const char *option, const char *file);
+
+        // Add bash and sh
     };
+
+
+    struct Process;
 }
 
 #endif  // ! __linux__
