@@ -286,6 +286,34 @@ int main() {
 
     /* ////////////////////////////////////////////////////////////////// */
 
+    std::unique_ptr<linapi::Process> process;
+
+    std::string ps = process->ps();
+
+    if (!ps.empty())  // INFO: Test 18
+        std::cout << "Test 18 | " << GREEN << "Passed" << RESET << std::endl;
+    else
+        std::cout << "Test 18 | " << RED << "Failed" << RESET << '[' << ps << ']' << std::endl;
+
+    /* ////////////////////////////////////////////////////////////////// */
+
+    ps = process->ps("-s");
+
+    if (!ps.empty())  // INFO: Test 19
+        std::cout << "Test 19 | " << GREEN << "Passed" << RESET << std::endl;
+    else
+        std::cout << "Test 19 | " << RED << "Failed" << RESET << '[' << ps << ']' << std::endl;
+
+    /* ////////////////////////////////////////////////////////////////// */
+
+    std::string top = process->top("-c");
+
+    if (!top.empty())  // INFO: Test 19
+        std::cout << "Test 19 | " << GREEN << "Passed" << RESET << std::endl;
+    else
+        std::cout << "Test 19 | " << RED << "Failed" << RESET << '[' << top << ']' << std::endl;
+
+    /* ////////////////////////////////////////////////////////////////// */
 
     return 0;
 }
