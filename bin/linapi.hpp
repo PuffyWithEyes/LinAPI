@@ -91,12 +91,14 @@ namespace linapi {
         static std::string tail(const char *file);
 
         static std::string tail(const char *option, const char *file);
-
-        // TODO: Add bash and sh
     };
 
 
     struct Process: public API {
+        Process() = default;
+
+        ~Process() = default;
+
         static std::string ps();
 
         static std::string ps(const char *option);
@@ -111,12 +113,6 @@ namespace linapi {
 
         static void kill_all(const char *option, const char *applicationName);
     };
-
-    // TODO: System info
-
-    // TODO: Compression
-
-    // TODO: Network
 }
 
 #endif  // ! __linux__
